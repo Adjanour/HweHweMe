@@ -7,8 +7,22 @@ from database import get_db
 from routes import auth, devices, groups, locations
 from schemas import Token
 from services.auth import verify_password, create_access_token
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# CORS (Cross-Origin Resource Sharing) middleware configuration
+origins = [
+   "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(devices.router, prefix="/api", tags=["devices"])
